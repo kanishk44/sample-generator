@@ -7,8 +7,8 @@ def main():
     """This is the main function that is run"""
     abs_path = FileOperations.get_calculate_file_path(Config.data_directory, Config.file_name)
     out_path = FileOperations.get_calculate_file_path(Config.sample_files_output, "")
-    df = PandasCsvRead.get_df(abs_path)
-    count = PandasCount.get_count(df)
+    data_frame = PandasCsvRead.get_data_frame(abs_path)
+    count = PandasCount.get_count(data_frame)
     file_names = FileNameGenerator.get_file_names(Config.z_scores, Config.margin_of_error, df)
     sample_sizes = []
 
@@ -18,7 +18,7 @@ def main():
 
     for n in sample_sizes:
         for file_name in file_names:
-            sample = SampleGenerator.get_sample(df, n)
+            sample = SampleGenerator.get_sample(data_frame, n)
             FileOperations.get_csv(sample, out_path+file_name)
 
     if __name__ == '__main__':
