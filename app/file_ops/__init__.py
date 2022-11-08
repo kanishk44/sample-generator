@@ -4,6 +4,7 @@ import pandas
 
 
 class FileOperations:
+    """File operations"""
     @staticmethod
     def get_project_root_directory():
         """Get root project directory"""
@@ -16,4 +17,5 @@ class FileOperations:
 
     @staticmethod
     def get_csv(data_frame: pandas.DataFrame, file_name: str):
+        """Export csv files"""
         data_frame.to_csv(file_name, header=False, index=False)
