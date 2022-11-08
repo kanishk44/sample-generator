@@ -7,7 +7,7 @@ from app.math_ops import *
 class PandasCsvRead:
     """Pandas csv read"""
     @staticmethod
-    def get_df(absolute_path: str):
+    def get_data_frame(absolute_path: str):
         """Read csv from pandas and return data frame"""
         return pandas.read_csv(absolute_path)
 
@@ -72,6 +72,7 @@ class SampleSizeGenerator:
     """Sample size generator"""
     @staticmethod
     def get_sample_size(z_score: float, margin_of_error: float, population: int, std=.5):
+        """Get the sample size"""
         numerator = (SquareNum.get_square(z_score) * std * (1 - std)) / SquareNum.get_square(margin_of_error)
         denominator = 1 + (numerator / population)
         res = RoundingToAppConfig.get_result(math.trunc(numerator / denominator))
@@ -82,12 +83,13 @@ class FileNameGenerator:
     """File name generator"""
     @staticmethod
     def get_file_names(z_scores, margin_of_errors, data_frame: pandas.DataFrame):
+        """Get file names"""
         file_names = []
         population = PandasCount.get_count(data_frame)
         for z_score in z_scores.values():
             for margin_of_error in margin_of_errors:
                 sample_size = SampleSizeGenerator.get_sample_size(z_score, margin_of_error, population)
-                file_names.append("sample_data_number_{}_{}_{}.csv".format(z_score, margin_of_error, sample_size))
+                file_names.append(f"sample_data_number_{z_score}_{margin_of_error}_{sample_size}.csv")
         return file_names
 
 
@@ -95,11 +97,12 @@ class SampleGenerator:
     """Sample generator"""
     @staticmethod
     def get_sample(data_frame: pandas.DataFrame, sample_size: int):
-        df = data_frame.sample(n=sample_size - 2)
+        """Generate samples"""
+        sample_data_frame = data_frame.sample(n=sample_size - 2)
         min_val = PandasMin.get_min(data_frame, 'pop')
         max_val = PandasMax.get_max(data_frame, 'pop')
-        min_rec = df.loc[df['pop'] == min_val]
-        max_rec = df.loc[df['pop'] == max_val]
-        df.append(min_rec, ignore_index=True)
-        df.append(max_rec, ignore_index=True)
-        return df
+        min_rec = sample_data_frame.loc[sample_data_frame['pop'] == min_val]
+        max_rec = sample_data_frame.loc[sample_data_frame['pop'] == max_val]
+        sample_data_frame.append(min_rec, ignore_index=True)
+        sample_data_frame.append(max_rec, ignore_index=True)
+        return sample_data_frame
