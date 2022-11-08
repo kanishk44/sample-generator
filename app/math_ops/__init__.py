@@ -14,5 +14,6 @@ class SquareNum:
     """Square the number"""
     @staticmethod
     def get_square(value):
+        """Get the square of a number"""
         return pow(value, 2)
 
