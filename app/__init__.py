@@ -9,7 +9,7 @@ def main():
     out_path = FileOperations.get_calculate_file_path(Config.sample_files_output, "")
     data_frame = PandasCsvRead.get_data_frame(abs_path)
     count = PandasCount.get_count(data_frame)
-    file_names = FileNameGenerator.get_file_names(Config.z_scores, Config.margin_of_error, df)
+    file_names = FileNameGenerator.get_file_names(Config.z_scores, Config.margin_of_error, data_frame)
     sample_sizes = []
 
     for z in Config.z_scores.values():
