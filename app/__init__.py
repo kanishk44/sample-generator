@@ -6,7 +6,7 @@ from app.pandas_ops import *
 def main():
     """This is the main function that is run"""
     abs_path = FileOperations.get_calculate_file_path(Config.data_directory, Config.file_name)
-    out_path = FileOperations.get_calculate_file_path(Config.data_directory, Config.sample_files_output)
+    out_path = FileOperations.get_calculate_file_path(Config.sample_files_output, "")
     df = PandasCsvRead.get_df(abs_path)
     count = PandasCount.get_count(df)
     file_names = FileNameGenerator.get_file_names(Config.z_scores, Config.margin_of_error, df)
