@@ -1,5 +1,6 @@
 """File operations """
 import os
+import pandas
 
 
 class FileOperations:
@@ -12,3 +13,7 @@ class FileOperations:
     def get_calculate_file_path(data_directory, data_file_name):
         """Calculate File path"""
         return os.path.join(FileOperations.get_project_root_directory(), data_directory, data_file_name)
+
+    @staticmethod
+    def get_csv(data_frame: pandas.DataFrame, file_name: str):
+        data_frame.to_csv(file_name, header=False, index=False)
